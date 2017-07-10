@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script src="javaScript/customerScript.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="css/style.css">
+<meta charset="windows-1255">
+<title>Customer</title>
+</head>
+<body>
+
+<p>
+<h1 style="text-align: center;"> Customer page </h1>
+</p>
+
+<div ng-controller="customerCtrl">
+
+<h2 style="text-align: left;">Purchase coupon</h2>
+<select ng-click="availbleCoupon()" ng-model="selectedCoupon" class="form-control" >
+ <option ng-repeat="coupon in coupons" ng-model="selectedCoupon" value="{{coupon}}">{{coupon}}</option> <br>
+</select>
+<br>
+<button ng-click="purchaseCoupon()" class="btn btn-primary">Purchase selected coupon</button>
+{{purchasedCoupon}}
+
+
+
+<h2 style="text-align: left;">Get all coupons</h2>
+<button ng-click="getAllCoupons()" class="btn btn-default">Show all coupons</button>
+<table border="1" ng-show="showCoupon" class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr ng-repeat="coupon in getCoupons">
+				<td>{{coupon.id}}</td>
+				<td>{{coupon.title}}</td>
+				<td>{{coupon.startDate}}</td>
+				<td>{{coupon.endDate}}</td>
+				<td>{{coupon.amount}}</td>
+				<td>{{coupon.type}}</td>
+				<td>{{coupon.message}}</td>
+				<td>{{coupon.price}}</td>
+				<td>{{coupon.image}}</td>
+			</tr>
+		</table>
+		<table border="1" ng-show="showSingleCoupon" class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr>
+				<td>{{getCoupons.id}}</td>
+				<td>{{getCoupons.title}}</td>
+				<td>{{getCoupons.startDate}}</td>
+				<td>{{getCoupons.endDate}}</td>
+				<td>{{getCoupons.amount}}</td>
+				<td>{{getCoupons.type}}</td>
+				<td>{{getCoupons.message}}</td>
+				<td>{{getCoupons.price}}</td>
+				<td>{{getCoupons.image}}</td>
+			</tr>
+		</table>
+		{{emptyCouponList}}
+	
+
+
+<h2 style="text-align: left;">Get coupons by price</h2>
+<h4>Input price:</h4> <input type="text" ng-model="price"/>
+<br>
+<br>
+<button ng-click="getCouponByPrice()" class="btn btn-default">Show all coupons</button>
+<table border="1" ng-show="showCouponPrice" class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr ng-repeat="coupon in getPriceCoupons">
+				<td>{{coupon.id}}</td>
+				<td>{{coupon.title}}</td>
+				<td>{{coupon.startDate}}</td>
+				<td>{{coupon.endDate}}</td>
+				<td>{{coupon.amount}}</td>
+				<td>{{coupon.type}}</td>
+				<td>{{coupon.message}}</td>
+				<td>{{coupon.price}}</td>
+				<td>{{coupon.image}}</td>
+			</tr>
+		</table>
+		<table border="1" ng-show="showSingleCouponPrice" class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr>
+				<td>{{getPriceCoupons.id}}</td>
+				<td>{{getPriceCoupons.title}}</td>
+				<td>{{getPriceCoupons.startDate}}</td>
+				<td>{{getPriceCoupons.endDate}}</td>
+				<td>{{getPriceCoupons.amount}}</td>
+				<td>{{getPriceCoupons.type}}</td>
+				<td>{{getPriceCoupons.message}}</td>
+				<td>{{getPriceCoupons.price}}</td>
+				<td>{{getPriceCoupons.image}}</td>
+			</tr>
+		</table>
+		<br>{{couponListByPrice}}
+		
+		
+<h2 style="text-align: left">Get coupon by type</h2>
+			<h4>Type:</h4> <select name="type" ng-model="type" class="form-control" >
+				<option value="RESTURANT" ng-selected="Restaurant">Restaurant</option>
+				<option value="ELECTRICITY" ng-selected="Electricity">Electricity</option>
+				<option value="FOOD" ng-selected="Food" >Food</option>
+				<option value="HEALTH" ng-selected="Health">Health</option>
+				<option value="SPORTS" ng-selected="Sports">Sports</option>
+				<option value="CAMPING" ng-selected="Camping">Camping</option>
+				<option value="TRAVELING" ng-selected="Traveling">Traveling</option>
+				</select><br> 
+			<button ng-click="getCouponType()" class="btn btn-default">Get coupon by type</button>
+			<table border="1" ng-show="showCouponType" class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr ng-repeat="couponT in getCouponByType">
+				<td>{{couponT.id}}</td>
+				<td>{{couponT.title}}</td>
+				<td>{{couponT.startDate}}</td>
+				<td>{{couponT.endDate}}</td>
+				<td>{{couponT.amount}}</td>
+				<td>{{couponT.type}}</td>
+				<td>{{couponT.message}}</td>
+				<td>{{couponT.price}}</td>
+				<td>{{couponT.image}}</td>
+			</tr>
+		</table>
+		<table border="1" ng-show="showSingleCouponType" class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr>
+				<td>{{getCouponByType.id}}</td>
+				<td>{{getCouponByType.title}}</td>
+				<td>{{getCouponByType.startDate}}</td>
+				<td>{{getCouponByType.endDate}}</td>
+				<td>{{getCouponByType.amount}}</td>
+				<td>{{getCouponByType.type}}</td>
+				<td>{{getCouponByType.message}}</td>
+				<td>{{getCouponByType.price}}</td>
+				<td>{{getCouponByType.image}}</td>
+			</tr>
+		</table>
+		<br>{{couponListByType}}
+
+
+</div>
+
+</body>
+</html>

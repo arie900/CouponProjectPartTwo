@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script src="javaScript/adminScript.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta charset="windows-1255">
+
+<link rel="stylesheet" href="css/style.css">
+
+<title>Admin Service</title>
+</head>
+<body>
+
+<p>
+<h1 style="text-align: center;"> Admin page </h1>
+</p>
+	<div data-ng-controller="companyCtrl" class="form-group">
+
+
+		<h2 style="text-align: left;">Create Company</h2>
+		<input type="button" value="Create Company" data-ng-click="OpenCreate()" class="btn btn-default"/>
+		<div data-ng-show="showCompanyCreate" >
+		Company ID: <input type="text" data-ng-model="id" name="id" class="form-control"/><br>
+		Company name: <input type="text" data-ng-model="compName" name="compName" class="form-control"/><br>
+		Email: <input type="text" data-ng-model="email" name="email" class="form-control"/><br>
+		Password: <input type="password" data-ng-model="password" name="password" class="form-control"/><br>
+		<input type="button" value="Send" data-ng-click="postdata()" class="btn btn-primary" />
+		<p>{{createCompany}}</p>
+		</div>
+		
+		
+		
+
+
+
+		<h2 style="text-align: left;">Get All companies</h2>
+		<button data-ng-click="getAllCompanies()" class="btn btn-default">Show all companies</button>
+		<br>
+		{{emptyAllCompanies}}
+		<div ng-show="showAllcompanies">
+		<table border="1" data-ng-show="companyList" class="table table-bordered" >
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Password</th>
+			<th>email</th>
+			</tr>
+			<tr data-ng-repeat="company in getCompanies|orderBy:'id'">
+				<td>{{company.id}}</td>
+				<td>{{company.compName}}</td>
+				<td>{{company.password}}</td>
+				<td>{{company.email}}</td>
+			</tr>
+		</table>
+		<table border="1" data-ng-show="companySingle" class="table table-bordered" >
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Password</th>
+			<th>email</th>
+			</tr>
+			<tr>
+				<td>{{getCompanies.id}}</td>
+				<td>{{getCompanies.compName}}</td>
+				<td>{{getCompanies.password}}</td>
+				<td>{{getCompanies.email}}</td>
+			</tr>
+		</table>
+		</div>
+
+
+		<h2 style="text-align: left;">Get/Update company by id</h2>
+		<input type="button" data-ng-click="openCompanyId()" value="Get/Update company by id" class="btn btn-default"/>
+		<div data-ng-show="showCompanyId"><br>
+		Company ID: <br><input type="text" data-ng-model="companyId" class="form-control"/><br>
+		<button data-ng-click="getCompany()" class="btn btn-default">Get company</button>
+		<br>
+		<div ng-show="showCmpanId">
+		<table border="1" class="table table-bordered">
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Password</th>
+			<th>email</th>
+			</tr>
+			<tr>
+				<td>{{getCompanyId.id}}</td>
+				<td>{{getCompanyId.compName}}</td>
+				<td>{{getCompanyId.password}}</td>
+				<td>{{getCompanyId.email}}</td>
+			</tr>
+		</table>
+		</div>
+		{{getCompanyIdWrong}}
+		{{getUpdatedCompany}}
+		</div>
+		
+		<div data-ng-show="showMe">
+		<h2 style="text-align: left;">update company</h2>
+		New Company password: <input type="text" data-ng-model="newPass" class="form-control" /><br>
+		New Company email: <input type="text" data-ng-model="newMail" class="form-control"/><br>
+		<button data-ng-click="updateCompany()" class="btn btn-primary">Update company</button>
+		</div>
+
+
+
+		<h2 style="text-align: left;">Delete company by id</h2>
+		<input type="button" value="Delete company by id" data-ng-click="openDeleteCompany()" class="btn btn-default"/>
+		<div data-ng-show="showCompanyDelete"><br>
+		Company ID:<br> <input type="text" data-ng-model="deleteCompanyId" class="form-control"/><br>
+		<button data-ng-click="deleteCompany()" class="btn btn-danger">Delete company</button><br>
+		{{deletedCompany}}
+		</div>
+		
+		<h2 style="text-align: left;">Company income</h2>
+		<input type="button" value="Company income" data-ng-click="openIncomeCompany()" class="btn btn-default"	/>
+		<div data-ng-show="showCompanyIncome"><br>
+		Company ID: <br><input type="text" data-ng-model="incomeCompanyId" class="form-control"/><br>
+		<button data-ng-click="incomeCompany()" class="btn btn-primary">Get income company</button><br>
+		{{emptyCompanyincome}}
+		<div ng-show="showCompanyIncome">
+		<table border="1" class="table table-bordered" ng-show="companyIncomeList" >
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Amount</th>
+			<th>Description</th>
+			<th>Date</th>
+			</tr>
+			<tr data-ng-repeat="income in getIncomeCompany|orderBy:'id'">
+				<td>{{income.id}}</td>
+				<td>{{income.name}}</td>
+				<td>{{income.amount}}</td>
+				<td>{{income.description}}</td>
+				<td>{{income.date}}</td>
+			</tr>
+		</table>
+		<table border="1" class="table table-bordered" ng-show="singleIncomeCompany" >
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Amount</th>
+			<th>Description</th>
+			<th>Date</th>
+			</tr>
+			<tr>
+				<td>{{getIncomeCompany.id}}</td>
+				<td>{{getIncomeCompany.name}}</td>
+				<td>{{getIncomeCompany.amount}}</td>
+				<td>{{getIncomeCompany.description}}</td>
+				<td>{{getIncomeCompany.date}}</td>
+			</tr>
+		</table>
+		</div>
+		
+		</div>
+		
+		<h2 style="text-align: left;">All incomes</h2>
+		<input type="button" value="All incomes" data-ng-click="AllIncome()" class="btn btn-default"/>
+		<div ng-show="allIncomeList">
+		<table border="1" class="table table-bordered" ng-show="incomeList">
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Amount</th>
+			<th>Description</th>
+			<th>Date</th>
+		</tr>
+			<tr data-ng-repeat="incomes in getAllIncomes|orderBy:'id'">
+				<td>{{incomes.id}}</td>
+				<td>{{incomes.name}}</td>
+				<td>{{incomes.amount}}</td>
+				<td>{{incomes.description}}</td>
+				<td>{{incomes.date}}</td>
+			</tr>
+			<table border="1" class="table table-bordered" ng-show="incomeSingle">
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Amount</th>
+			<th>Description</th>
+			<th>Date</th>
+		</tr>
+			<tr>
+				<td>{{getAllIncomes.id}}</td>
+				<td>{{getAllIncomes.name}}</td>
+				<td>{{getAllIncomes.amount}}</td>
+				<td>{{getAllIncomes.description}}</td>
+				<td>{{getAllIncomes.date}}</td>
+			</tr>
+		</table>
+		</div>
+
+	
+	
+	</div>
+
+	<div data-ng-controller="customerCtrl" class="form-group">
+
+
+		<h2 style="text-align: left;">Create Customer</h2>
+		<input type="button" data-ng-click="openCreateCustomer()" value="Create customer" class="btn btn-default"/>
+		<div data-ng-show="showCreateCustomer">
+		Customer ID: <input type="text" data-ng-model="id" name="id" class="form-control"/><br>
+		Customer name: <input type="text" data-ng-model="custName" name="custName" class="form-control"/><br>
+		Password: <input type="password" data-ng-model="password" name="password" class="form-control"/><br>
+		<input type="button" value="Send" data-ng-click="createCustomer()" class="btn btn-primary"/>
+		{{createdCustomer}}
+		</div>
+
+		<h2 style="text-align: left">Get all customers</h2>
+		<button data-ng-click="getAllCustomers()" class="btn btn-default">Get all customers</button><br>
+		<div>
+		<table border="1" ng-show="customerList" class="table table-bordered">
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Password</th>
+			</tr>
+			<tr data-ng-repeat="customer in getCustomers|orderBy:'id'">
+				<td>{{customer.id}}</td>
+				<td>{{customer.custName}}</td>
+				<td>{{customer.password}}</td>
+			</tr>
+		</table>
+		<table border="1" ng-show="customerSingleList" class="table table-bordered">
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Password</th>
+			</tr>
+			<tr>
+				<td>{{getCustomers.id}}</td>
+				<td>{{getCustomers.custName}}</td>
+				<td>{{getCustomers.password}}</td>
+			</tr>
+		</table>
+		{{emptyCustomerList}}		
+		</div>
+		
+		<h2 style="text-align: left;">Get/Update customer by id</h2>
+		<input type="button" data-ng-click="openCustomerId()" value="Get/Update Customer by id" class="btn btn-default"/>
+		<div data-ng-show="showCustomerId"><br>
+		Customer ID:<br> <input type="text" data-ng-model="customerId" class="form-control"><br>
+		<button data-ng-click="getCustomer()" class="btn btn-primary">Get customer</button>
+		<table border="1"  class="table table-bordered" ng-show="showCustomerTable">
+		<tr>
+			<th>ID</th>
+			<th>Company name</th>
+			<th>Password</th>
+			</tr>
+			<tr>
+				<td>{{getCustomerId.id}}</td>
+				<td>{{getCustomerId.custName}}</td>
+				<td>{{getCustomerId.password}}</td>
+			</tr>
+		</table>
+		<br> {{getCustomerIdWorng}}
+		<br>{{updatedCustomer}}
+		</div>
+
+		<div data-ng-show="showUpdateCustomer">
+		<h2 style="text-align: left;">Update customer</h2><br>
+		New customer password <br><input type="password" data-ng-model="newCustPassword" class="form-control"/><br>
+		<button data-ng-click="updateCustomer()" class="btn btn-primary">Update Customer</button><br>
+		{{updatedCustomer}}
+		</div>
+		
+		<h2 style="text-align: left;">Delete customer by id</h2>
+		<input type="button" value="Delete customer by id" ng-click="openDeleteCustomer()" class="btn btn-default">
+		<div data-ng-show="showDeleteCustomer"><br>
+		Customer ID:<br> <input type="text" data-ng-model="deleteCustomerId" class="form-control" /><br>
+		<button data-ng-click="deleteCustomer()" class="btn btn-danger">Delete company</button>
+		{{deletedCustomer}}
+		</div>
+		
+		
+		<h2 style="text-align: left;">Customer incomes</h2>
+		<input type="button" value="open Customer incomes" data-ng-click="openCustomerIncome()" class="btn btn-default"/>
+		<div data-ng-show="showCustomerIncome"><br>
+		Customer ID:<br><input type="text" value="Get customer incomes" ng-model="incomeCustomerId" class="form-control"/><br>
+		<button data-ng-click="CustomerIncome()" class="btn btn-primary">Get all incomes</button><br>
+		<table border="1" class="table table-bordered" ng-show="customerIncomeList">
+		<tr>
+			<th>ID</th>
+			<th>Customer name</th>
+			<th>Amount</th>
+			<th>Description</th>
+			<th>Date</th>
+			</tr>	
+			<tr data-ng-repeat="incomes in getCustomerIncomes|orderBy:'id'">
+				<td>{{incomes.id}}</td>
+				<td>{{incomes.name}}</td>
+				<td>{{incomes.amount}}</td>
+				<td>{{incomes.description}}</td>
+				<td>{{incomes.date}}</td>
+			</tr>
+		</table>
+		<table border="1" class="table table-bordered" ng-show="customerSingleIncome">
+		<tr>
+			<th>ID</th>
+			<th>Customer name</th>
+			<th>Amount</th>
+			<th>Description</th>
+			<th>Date</th>
+			</tr>	
+			<tr >
+				<td>{{getCustomerIncomes.id}}</td>
+				<td>{{getCustomerIncomes.name}}</td>
+				<td>{{getCustomerIncomes.amount}}</td>
+				<td>{{getCustomerIncomes.description}}</td>
+				<td>{{getCustomerIncomes.date}}</td>
+			</tr>
+		</table>
+		{{emptyCustomerIncome}}
+		</div>
+		
+	</div>
+	
+	
+
+
+
+
+</body>
+</html>

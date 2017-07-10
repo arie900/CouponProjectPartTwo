@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html ng-app="companyApp">
+<head>
+<meta charset="windows-1255">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script src="javaScript/companyScript.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="css/style.css">
+<title>Company Page</title>
+</head>
+<body>
+<p>
+<h1 style="text-align: center;"> Company page </h1>
+</p>
+
+<div ng-controller="companyCtrl">
+
+	<h2 style="text-align: left">Create coupon</h2>
+	<input type="button" ng-click="openCreateCoupon()" value="Create Coupon" class="btn btn-default"/>
+	<div ng-show="showCreateCoupon" >
+			ID: <input type="text" ng-model="id" name="id"  class="form-control"/><br> 
+			Title: <input type="text" ng-model="title" name="title"  class="form-control"/><br>
+			Start date: <input type="date" ng-model="startDate" name="startDate"  class="form-control"/><br>
+			End date: <input type="date" ng-model="endDate" name="endDate"  class="form-control"/><br>
+			Amount: <input type="text" ng-model="amount" name="amount"  class="form-control"/><br>
+			Type: <select name="type" ng-model="type" class="form-control">
+				<option value="RESTURANT" ng-selected= "Restaurant">Restaurant</option>
+				<option value="ELECTRICITY" ng-selected="Electricity">Electricity</option>
+				<option value="FOOD" ng-selected="Food" >Food</option>
+				<option value="HEALTH" ng-selected="Health">Health</option>
+				<option value="SPORTS" ng-selected="Sports">Sports</option>
+				<option value="CAMPING" ng-selected="Camping">Camping</option>
+				<option value="TRAVELING" ng-selected="Traveling">Traveling</option>
+				</select><br> 
+			Message: <input type="text" name="message" ng-model="message" class="form-control"><br>
+			Price: <input type="text" name="price" ng-model="price" class="form-control"><br>
+			Image: <input type="text" name="image" ng-model="image" class="form-control"><br>
+			<button type="submit" ng-click="createCoupon()" class="btn btn-primary">Create coupon</button><br>
+			{{createdCoupon}}
+	</div>
+	
+	<h2 style="text-align: left">Get/Update coupon by id</h2>
+	<input type="button" ng-click="openCouponbyId()" value="Get coupon by id" class="btn btn-default"/><br>
+	<div ng-show="openGetCouponByid">
+			<h4>Input id:</h4> <input type="text" ng-model="couponId" class="form-control"/><br> 
+			<button type="submit" ng-click="getCouponId()" class="btn btn-primary">Get coupon</button>
+			<table border="1" class="table table-bordered" ng-show="showCouponById">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr>
+				<td>{{getCouponById.id}}</td>
+				<td>{{getCouponById.title}}</td>
+				<td>{{getCouponById.startDate}}</td>
+				<td>{{getCouponById.endDate}}</td>
+				<td>{{getCouponById.amount}}</td>
+				<td>{{getCouponById.type}}</td>
+				<td>{{getCouponById.message}}</td>
+				<td>{{getCouponById.price}}</td>
+				<td>{{getCouponById.image}}</td>
+			</tr>
+			</table>
+			<br>{{getCouponByIdWorng}}
+			<br>{{updatedCoupon}}
+	</div>
+
+		<div ng-show="showUpdateCoupon">
+		<h2 style="text-align: left">Update coupon</h2>
+			End date: <input type="Date" ng-model="newEndDate" class="form-control" ><br> 
+			Price: <input type="text" ng-model="newPrice" class="form-control"><br>
+			<button type="submit" ng-click="updateCoupon()" class="btn btn-primary">Update coupon</button>
+		</div>
+
+		<h2 style="text-align: left;">Delete coupon</h2>
+		<input type="button" ng-click="openDeleteCoupon()" value="Delete coupon" class="btn btn-default"/><br>
+		<div ng-show="showDeleteCoupon"><br>
+		ID of the coupon to delete: <br><input type="text" ng-model="deleteCouponId" class="form-control"><br>
+		<button type="submit" ng-click="deleteCoupon()" class="btn btn-danger">Delete coupon</button>
+		<br> {{deletedCoupon}}
+		</div>
+
+		<h2 style="text-align: left;">Get all coupons</h2>
+		<button type="submit" ng-click="getAllCoupons()" class="btn btn-default">Get all coupons</button>
+		<br>
+		<table border="1" class="table table-bordered" ng-show="showAllCoupons">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr ng-repeat="coupon in getCoupons">
+				<td>{{coupon.id}}</td>
+				<td>{{coupon.title}}</td>
+				<td>{{coupon.startDate}}</td>
+				<td>{{coupon.endDate}}</td>
+				<td>{{coupon.amount}}</td>
+				<td>{{coupon.type}}</td>
+				<td>{{coupon.message}}</td>
+				<td>{{coupon.price}}</td>
+				<td>{{coupon.image}}</td>
+			</tr>
+		</table>
+		<table border="1" class="table table-bordered" ng-show="showSingleCoupons">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr>
+				<td>{{getCoupons.id}}</td>
+				<td>{{getCoupons.title}}</td>
+				<td>{{getCoupons.startDate}}</td>
+				<td>{{getCoupons.endDate}}</td>
+				<td>{{getCoupons.amount}}</td>
+				<td>{{getCoupons.type}}</td>
+				<td>{{getCoupons.message}}</td>
+				<td>{{getCoupons.price}}</td>
+				<td>{{getCoupons.image}}</td>
+			</tr>
+		</table>
+		{{emptyCouponList}}
+	
+
+
+		<h2 style="text-align: left">Get coupon by type</h2>
+			<h4>Type:</h4> <select name="couponType" ng-model="couponType" class="form-control" >
+				<option value="RESTURANT" ng-selected="Restaurant">Restaurant</option>
+				<option value="ELECTRICITY" ng-selected="Electricity">Electricity</option>
+				<option value="FOOD" ng-selected="Food" >Food</option>
+				<option value="HEALTH" ng-selected="Health">Health</option>
+				<option value="SPORTS" ng-selected="Sports">Sports</option>
+				<option value="CAMPING" ng-selected="Camping">Camping</option>
+				<option value="TRAVELING" ng-selected="Traveling">Traveling</option>
+				</select><br> 
+			<button ng-click="getCouponType()" class="btn btn-default">Get coupon by type</button>
+			<br>{{emptyCouponListByType}}				
+			<table border="1" ng-show="typeTable" class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr ng-repeat="coupon in getCouponByType">
+				<td>{{coupon.id}}</td>
+				<td>{{coupon.title}}</td>
+				<td>{{coupon.startDate}}</td>
+				<td>{{coupon.endDate}}</td>
+				<td>{{coupon.amount}}</td>
+				<td>{{coupon.type}}</td>
+				<td>{{coupon.message}}</td>
+				<td>{{coupon.price}}</td>
+				<td>{{coupon.image}}</td>
+			</tr>
+		</table>
+		<table border="1" ng-show="singleTypeTable" class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Tile</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Message</th>
+				<th>Price</th>
+				<th>Image</th>
+			</tr>
+			<tr>
+				<td>{{getCouponByType.id}}</td>
+				<td>{{getCouponByType.title}}</td>
+				<td>{{getCouponByType.startDate}}</td>
+				<td>{{getCouponByType.endDate}}</td>
+				<td>{{getCouponByType.amount}}</td>
+				<td>{{getCouponByType.type}}</td>
+				<td>{{getCouponByType.message}}</td>
+				<td>{{getCouponByType.price}}</td>
+				<td>{{getCouponByType.image}}</td>
+			</tr>
+		</table>
+		
+	</div>
+</body>
+</html>
